@@ -48,6 +48,8 @@ function unique3() {
   return random3Num;
 }
 
+var imgAll = [];
+
 function display3(threeNums) {
   for (var i = 0; i < threeNums.length; i++) {
     var loadImage = document.getElementsByTagName('img')[i];
@@ -56,11 +58,11 @@ function display3(threeNums) {
     var img = threeNums[i];
     loadImage.src = Products.list[img].src;
     loadCaption.textContent = Products.list[img].name;
-
-    console.log(img);
+    imgAll.push(img);
   }
   return img;
 }
+
 
 // When call the function unique3, this returns an array of three random numbers, then make this array a new variable named listNum.
 function initiate() {
@@ -73,18 +75,20 @@ function initiate() {
 
 initiate();
 
-function click1() {
 
+if (imgAll.length <75+1) {
+  var img1 = document.getElementById('first');
+  img1.addEventListener('click', initiate);
 
+  var img2 = document.getElementById('second');
+  img2.addEventListener('click', initiate);
+
+  var img3 = document.getElementById('third');
+  img3.addEventListener('click', initiate);
+}
+else {
+  var imgAll1 = document.getElementById('first');
+  imgAll1.removeEventListener('click', initiate);
 }
 
 
-var img1 = document.getElementById('first');
-img1.addEventListener('click', initiate);
-img1.addEventListener('click', click1);
-
-var img2 = document.getElementById('second');
-img2.addEventListener('click', initiate);
-
-var img3 = document.getElementById('third');
-img3.addEventListener('click', initiate);

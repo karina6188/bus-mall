@@ -47,15 +47,17 @@ footer {
 }
 
 img {
-  width: 320px;
-  max-width: 320px;
-  max-height: 320px;
+  width: 220px;
+  height: 200px;
+  max-width: 220px;
+  max-height: 220px;
+  background-size: fill;
 }
 
 section {
   display: inline-block;
   margin: 160px 0px 20px 40px;
-  width: 320px;
+  width: 220px;
   border: 2px rgb(129, 4, 4) solid;
   padding: 20px;
   background: url() no-repeat;
