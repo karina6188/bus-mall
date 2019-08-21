@@ -1,6 +1,6 @@
-*{
+/* *{
   outline: dotted orange 1px;
-}
+} */
 
 body {
   min-width: 1300px;
@@ -25,7 +25,7 @@ h2 {
   left: 0;
   width: 100%;
   margin-top: 0;
-  padding: 20px 40px;
+  padding: 30px 40px;
   color: black;
   font-size: 1.3em;
   text-indent: 30px;
@@ -47,20 +47,18 @@ footer {
 }
 
 img {
-  width: 220px;
+  display: inline-block;
+  width: 240px;
   height: 200px;
-  max-width: 220px;
   max-height: 220px;
-  background-size: fill;
+  padding: 20px;
+  border: 3px solid rgb(143, 0, 0);
+  margin-right: 30px;
 }
 
 section {
-  display: inline-block;
-  margin: 160px 0px 20px 40px;
-  width: 220px;
-  border: 2px rgb(129, 4, 4) solid;
+  margin: 160px 40px 20px 40px;
   padding: 20px;
-  background: url() no-repeat;
 }
 
 figcaption {
@@ -69,4 +67,7 @@ figcaption {
   font-weight: bold;
   text-align: center;
   padding: 10px 10px;
+  display: block;
+  width: 200px;
+  position: relative;
 }
