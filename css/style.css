@@ -1,6 +1,6 @@
-*{
+/* *{
   outline: dotted orange 1px;
-}
+} */
 
 body {
   min-width: 1300px;
@@ -25,7 +25,7 @@ h2 {
   left: 0;
   width: 100%;
   margin-top: 0;
-  padding: 20px 40px;
+  padding: 30px 40px;
   color: black;
   font-size: 1.3em;
   text-indent: 30px;
@@ -34,7 +34,7 @@ h2 {
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -43,30 +43,51 @@ footer {
   color: white;
   font-size: 1em;
   font-family: 'Nunito', sans-serif;
+}
 
+figure {
+  display: inline-block;
+  margin: 170px 0px 40px 40px;
+  padding: 10px;
+  border: 2px solid rgb(143, 0, 0);
 }
 
 img {
-  width: 220px;
-  height: 200px;
-  max-width: 220px;
-  max-height: 220px;
-  background-size: fill;
-}
-
-section {
   display: inline-block;
-  margin: 160px 0px 20px 40px;
-  width: 220px;
-  border: 2px rgb(129, 4, 4) solid;
-  padding: 20px;
-  background: url() no-repeat;
-}
+  width: 240px;
+  height: 200px;
+  max-height: 220px;
 
+}
 figcaption {
   background-color: #ccc;
   font-family: 'Nunito', sans-serif;
   font-weight: bold;
   text-align: center;
   padding: 10px 10px;
+  display: block;
+  width: 220px;
+  position: relative;
+}
+
+table {
+  margin: 0px 0px 90px 40px;
+  background-color: rgb(247, 247, 247);
+}
+
+td, th {
+  border: 1px solid rgb(143, 0, 0);
+  font-family: 'Nunito', sans-serif;
+  padding: 2px 5px;
+  text-align: left;
+  column-width: 120px;
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: rgb(168, 107, 107);
+  color: white;
 }

@@ -1,94 +1,175 @@
 'use strict';
 
+var maxSelected = 25;
+var figure1 = document.getElementById('figure1');
+var figure2 = document.getElementById('figure2');
+var figure3 = document.getElementById('figure3');
+var thisSet = {};
+var previousSet = {};
+var allProducts = [];
+var selected = 0;
+console.log(allProducts);
+
 function Products(name, src) {
   this.name = name;
   this.src = src;
-  this.displayed = [];
-  this.clicked = [];
-  Products.list.push(this);
+  this.displayed = 0;
+  this.clicked = 0;
+  allProducts.push(this);
 }
 
-Products.list = [];
+Products.prototype.updateDisplayed = function() {
+  this.displayed++;
+};
 
-new Products('Luggage', '/img/bag.jpg');
-new Products('Banana Cutter', '/img/banana.jpg');
-new Products('Toilet Paper Holder Stand', '/img/bathroom.jpg');
-new Products('Rain Boots', '/img/boots.jpg');
-new Products('Breakfast Machine', '/img/breakfast.jpg');
-new Products('Bubblegum', '/img/bubblegum.jpg');
-new Products('Chair', '/img/chair.jpg');
-new Products('Cthulhu', '/img/cthulhu.jpg');
-new Products('Dog-Duck', '/img/dog-duck.jpg');
-new Products('Dragon Meat', '/img/dragon.jpg');
-new Products('Pen', '/img/pen.jpg');
-new Products('Pet Sweep', '/img/pet-sweep.jpg');
-new Products('Pizza Scissors', '/img/scissors.jpg');
-new Products('Shark Sleeping Bag', '/img/shark.jpg');
-new Products('Baby Sweep', '/img/sweep.png');
-new Products('Tauntaun', '/img/tauntaun.jpg');
-new Products('Unicorn Meat', '/img/unicorn.jpg');
-new Products('USB', '/img/usb.gif');
-new Products('Water Can', '/img/water-can.jpg');
-new Products('Wine Glass', '/img/wine-glass.jpg');
+Products.prototype.updateClicked = function() {
+  this.clicked++;
+};
 
-console.log(Products.list);
+function loadProducts() {
+  new Products('Luggage', '/img/bag.jpg');
+  new Products('Banana Cutter', '/img/banana.jpg');
+  new Products('Toilet Paper Holder Stand', '/img/bathroom.jpg');
+  new Products('Rain Boots', '/img/boots.jpg');
+  new Products('Breakfast Machine', '/img/breakfast.jpg');
+  new Products('Meatball Bubblegum', '/img/bubblegum.jpg');
+  new Products('Chair', '/img/chair.jpg');
+  new Products('Cthulhu', '/img/cthulhu.jpg');
+  new Products('Dog-Duck', '/img/dog-duck.jpg');
+  new Products('Dragon Meat', '/img/dragon.jpg');
+  new Products('Utensil Pen', '/img/pen.jpg');
+  new Products('Pet Sweep', '/img/pet-sweep.jpg');
+  new Products('Pizza Scissors', '/img/scissors.jpg');
+  new Products('Shark Sleeping Bag', '/img/shark.jpg');
+  new Products('Baby Sweep', '/img/sweep.png');
+  new Products('Taun Taun', '/img/tauntaun.jpg');
+  new Products('Unicorn Meat', '/img/unicorn.jpg');
+  new Products('USB', '/img/usb.gif');
+  new Products('Water Can', '/img/water-can.jpg');
+  new Products('Wine Glass', '/img/wine-glass.jpg');
+}
 
-function unique3() {
+function setupImageContainers(numImages) {
+  for (var i = 1; i <= numImages; i++) {
+    var img = document.createElement('img');
+    var caption = document.createElement('figcaption');
+    caption.id = `fig${i}`;
+    img.id = `image${i}`;
+    img.src = 'http://placehold.it/200x200';
 
-  var random3Num = [];
-
-  for (var i = 0; i < 3; i ++) {
-    var randomNum = Math.floor(Math.random()* Products.list.length);
-
-    while (random3Num.includes(randomNum)) {
-      randomNum = Math.floor(Math.random()* Products.list.length);
+    if (i === 1) {
+      figure1.appendChild(img);
+      figure1.appendChild(caption);
     }
-    random3Num.push(randomNum);
+    else if (i === 2) {
+      figure2.appendChild(img);
+      figure2.appendChild(caption);
+    }
+    else {
+      figure3.appendChild(img);
+      figure3.appendChild(caption);
+    }
+
   }
-  return random3Num;
 }
 
-var imgAll = [];
+function setupListener() {
+  figure1.addEventListener('click', clickHandler);
+  figure2.addEventListener('click', clickHandler);
+  figure3.addEventListener('click', clickHandler);
+}
+
+function removeListener() {
+  figure1.removeEventListener('click', clickHandler);
+  figure2.removeEventListener('click', clickHandler);
+  figure3.removeEventListener('click', clickHandler);
+}
+
+function clickHandler(e) {
+  var imageName = e.target.alt;
+  for (var i = 0; i < allProducts.length; i++) {
+    if (allProducts[i].name === imageName) {
+      allProducts[i].updateClicked();
+      selected++;
+      console.log(selected);
+    }
+  }
+  display3(3);
+}
 
 function display3(threeNums) {
-  for (var i = 0; i < threeNums.length; i++) {
-    var loadImage = document.getElementsByTagName('img')[i];
-    var loadCaption = document.getElementsByTagName('figcaption')[i];
+  thisSet = {};
 
-    var img = threeNums[i];
-    loadImage.src = Products.list[img].src;
-    loadCaption.textContent = Products.list[img].name;
-    imgAll.push(img);
+  for (var i = 1; i <= threeNums; i++) {
+    var id = `image${i}`;
+    var capId = `fig${i}`;
+    var img = document.getElementById(id);
+    var caption = document.getElementById(capId);
+
+    var imageObject = uniqueImage();
+
+    img.src = imageObject.src;
+    img.alt = imageObject.name;
+    caption.textContent = imageObject.name;
   }
-  return img;
+
+  previousSet = thisSet;
+  if (selected === maxSelected) {
+    removeListener();
+    //Put this here because everytime you click, display3 function is run and this will be checked everytime you click.
+    showResults();
+  }
+}
+
+function uniqueImage() {
+  var found = false;
+
+  while (!found) {
+    var n = Math.floor(Math.random() * allProducts.length);
+    if (!thisSet[n] && !previousSet[n]) {
+      found = allProducts[n];
+      allProducts[n].updateDisplayed();
+      thisSet[n] = true;
+    }
+  }
+  return found;
 }
 
 
-// When call the function unique3, this returns an array of three random numbers, then make this array a new variable named listNum.
-function initiate() {
+function showResults() {
+  var thead = document.getElementById('thead');
+  var trh = document.createElement('tr');
+  
+  var tableHead = ['Product Name', 'Images Displayed', 'Images Selected'];
+  for (var x = 0; x < tableHead.length; x++) {
+    var th = document.createElement('th');
+    th.textContent = tableHead[x];
+    trh.appendChild(th);
+    thead.appendChild(trh);
+  }
 
-  var listNum = unique3();
+  var tbody = document.getElementById('tbody');
+  for (var i = 0; i < allProducts.length; i++) {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
 
-  // To transfer the array of 3 random numbers now stored in variable listNum, make function display3 to take in an argument that is listNum. Therefore the array has been transferred into function display3 with a new name threeNums.
-  display3(listNum);
+    td.textContent = allProducts[i].name;
+    tr.appendChild(td);
+
+    var td2 = document.createElement('td');
+    td2.textContent = allProducts[i].displayed;
+    tr.appendChild(td2);
+
+    var td3 = document.createElement('td');
+    td3.textContent = allProducts[i].clicked;
+    tr.appendChild(td3);
+
+    tbody.appendChild(tr);
+  }
 }
 
-initiate();
-
-
-if (imgAll.length <75+1) {
-  var img1 = document.getElementById('first');
-  img1.addEventListener('click', initiate);
-
-  var img2 = document.getElementById('second');
-  img2.addEventListener('click', initiate);
-
-  var img3 = document.getElementById('third');
-  img3.addEventListener('click', initiate);
-}
-else {
-  var imgAll1 = document.getElementById('first');
-  imgAll1.removeEventListener('click', initiate);
-}
-
+loadProducts();
+setupImageContainers(3);
+setupListener();
+display3(3);
 
