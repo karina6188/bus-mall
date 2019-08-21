@@ -1,9 +1,14 @@
 'use strict';
 
-var container = document.getElementById('image-container');
+var maxSelected = 25;
+var figure1 = document.getElementById('figure1');
+var figure2 = document.getElementById('figure2');
+var figure3 = document.getElementById('figure3');
 var thisSet = {};
 var previousSet = {};
 var allProducts = [];
+var selected = 0;
+console.log(allProducts);
 
 function Products(name, src) {
   this.name = name;
@@ -48,15 +53,36 @@ function setupImageContainers(numImages) {
   for (var i = 1; i <= numImages; i++) {
     var img = document.createElement('img');
     var caption = document.createElement('figcaption');
-    img.id = `image-${i}`;
+    caption.id = `fig${i}`;
+    img.id = `image${i}`;
     img.src = 'http://placehold.it/200x200';
-    container.appendChild(img);
-    container.appendChild(caption);
+
+    if (i === 1) {
+      figure1.appendChild(img);
+      figure1.appendChild(caption);
+    }
+    else if (i === 2) {
+      figure2.appendChild(img);
+      figure2.appendChild(caption);
+    }
+    else {
+      figure3.appendChild(img);
+      figure3.appendChild(caption);
+    }
+
   }
 }
 
 function setupListener() {
-  container.addEventListener('click', clickHandler);
+  figure1.addEventListener('click', clickHandler);
+  figure2.addEventListener('click', clickHandler);
+  figure3.addEventListener('click', clickHandler);
+}
+
+function removeListener() {
+  figure1.removeEventListener('click', clickHandler);
+  figure2.removeEventListener('click', clickHandler);
+  figure3.removeEventListener('click', clickHandler);
 }
 
 function clickHandler(e) {
@@ -64,6 +90,8 @@ function clickHandler(e) {
   for (var i = 0; i < allProducts.length; i++) {
     if (allProducts[i].name === imageName) {
       allProducts[i].updateClicked();
+      selected++;
+      console.log(selected);
     }
   }
   display3(3);
@@ -73,11 +101,12 @@ function display3(threeNums) {
   thisSet = {};
 
   for (var i = 1; i <= threeNums; i++) {
-    var id = `image-${i}`;
+    var id = `image${i}`;
+    var capId = `fig${i}`;
     var img = document.getElementById(id);
-    var caption = document.getElementsByTagName('figcaption')[i-1];
+    var caption = document.getElementById(capId);
 
-    var imageObject = unique3();
+    var imageObject = uniqueImage();
 
     img.src = imageObject.src;
     img.alt = imageObject.name;
@@ -85,10 +114,14 @@ function display3(threeNums) {
   }
 
   previousSet = thisSet;
-  console.log(allProducts);
+  if (selected === maxSelected) {
+    removeListener();
+    //Put this here because everytime you click, display3 function is run and this will be checked everytime you click.
+    showResults();
+  }
 }
 
-function unique3() {
+function uniqueImage() {
   var found = false;
 
   while (!found) {
@@ -102,18 +135,41 @@ function unique3() {
   return found;
 }
 
-function countClicked() {
-  var sum = 0;
+
+function showResults() {
+  var thead = document.getElementById('thead');
+  var trh = document.createElement('tr');
+  
+  var tableHead = ['Product Name', 'Images Displayed', 'Images Selected'];
+  for (var x = 0; x < tableHead.length; x++) {
+    var th = document.createElement('th');
+    th.textContent = tableHead[x];
+    trh.appendChild(th);
+    thead.appendChild(trh);
+  }
+
+  var tbody = document.getElementById('tbody');
   for (var i = 0; i < allProducts.length; i++) {
-    sum+= allProducts[i].clicked;
-    console.log(sum);
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+
+    td.textContent = allProducts[i].name;
+    tr.appendChild(td);
+
+    var td2 = document.createElement('td');
+    td2.textContent = allProducts[i].displayed;
+    tr.appendChild(td2);
+
+    var td3 = document.createElement('td');
+    td3.textContent = allProducts[i].clicked;
+    tr.appendChild(td3);
+
+    tbody.appendChild(tr);
   }
 }
-
 
 loadProducts();
 setupImageContainers(3);
 setupListener();
 display3(3);
 
-countClicked();

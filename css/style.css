@@ -34,7 +34,7 @@ h2 {
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -43,7 +43,13 @@ footer {
   color: white;
   font-size: 1em;
   font-family: 'Nunito', sans-serif;
+}
 
+figure {
+  display: inline-block;
+  margin: 170px 0px 40px 40px;
+  padding: 10px;
+  border: 2px solid rgb(143, 0, 0);
 }
 
 img {
@@ -51,16 +57,8 @@ img {
   width: 240px;
   height: 200px;
   max-height: 220px;
-  padding: 20px;
-  border: 3px solid rgb(143, 0, 0);
-  margin-right: 30px;
-}
 
-section {
-  margin: 160px 40px 20px 40px;
-  padding: 20px;
 }
-
 figcaption {
   background-color: #ccc;
   font-family: 'Nunito', sans-serif;
@@ -68,6 +66,28 @@ figcaption {
   text-align: center;
   padding: 10px 10px;
   display: block;
-  width: 200px;
+  width: 220px;
   position: relative;
+}
+
+table {
+  margin: 0px 0px 90px 40px;
+  background-color: rgb(247, 247, 247);
+}
+
+td, th {
+  border: 1px solid rgb(143, 0, 0);
+  font-family: 'Nunito', sans-serif;
+  padding: 2px 5px;
+  text-align: left;
+  column-width: 120px;
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: rgb(168, 107, 107);
+  color: white;
 }
