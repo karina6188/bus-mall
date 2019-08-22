@@ -10,6 +10,7 @@ var allProducts = [];
 var selected = 0;
 console.log(allProducts);
 
+
 function Products(name, src) {
   this.name = name;
   this.src = src;
@@ -27,27 +28,32 @@ Products.prototype.updateClicked = function() {
 };
 
 function loadProducts() {
-  new Products('Luggage', '/img/bag.jpg');
-  new Products('Banana Cutter', '/img/banana.jpg');
-  new Products('Toilet Paper Holder Stand', '/img/bathroom.jpg');
-  new Products('Rain Boots', '/img/boots.jpg');
-  new Products('Breakfast Machine', '/img/breakfast.jpg');
-  new Products('Meatball Bubblegum', '/img/bubblegum.jpg');
-  new Products('Chair', '/img/chair.jpg');
-  new Products('Cthulhu', '/img/cthulhu.jpg');
-  new Products('Dog-Duck', '/img/dog-duck.jpg');
-  new Products('Dragon Meat', '/img/dragon.jpg');
-  new Products('Utensil Pen', '/img/pen.jpg');
-  new Products('Pet Sweep', '/img/pet-sweep.jpg');
-  new Products('Pizza Scissors', '/img/scissors.jpg');
-  new Products('Shark Sleeping Bag', '/img/shark.jpg');
-  new Products('Baby Sweep', '/img/sweep.png');
-  new Products('Taun Taun', '/img/tauntaun.jpg');
-  new Products('Unicorn Meat', '/img/unicorn.jpg');
-  new Products('USB', '/img/usb.gif');
-  new Products('Water Can', '/img/water-can.jpg');
-  new Products('Wine Glass', '/img/wine-glass.jpg');
-}
+  // var allProcusts = JSON.parse(localStorage.getItem('allProducts'));
+  // if (!allProducts) {
+    new Products('Luggage', '/img/bag.jpg');
+    new Products('Banana Cutter', '/img/banana.jpg');
+    new Products('Toilet Paper Holder Stand', '/img/bathroom.jpg');
+    new Products('Rain Boots', '/img/boots.jpg');
+    new Products('Breakfast Machine', '/img/breakfast.jpg');
+    new Products('Meatball Bubblegum', '/img/bubblegum.jpg');
+    new Products('Chair', '/img/chair.jpg');
+    new Products('Cthulhu', '/img/cthulhu.jpg');
+    new Products('Dog-Duck', '/img/dog-duck.jpg');
+    new Products('Dragon Meat', '/img/dragon.jpg');
+    new Products('Utensil Pen', '/img/pen.jpg');
+    new Products('Pet Sweep', '/img/pet-sweep.jpg');
+    new Products('Pizza Scissors', '/img/scissors.jpg');
+    new Products('Shark Sleeping Bag', '/img/shark.jpg');
+    new Products('Baby Sweep', '/img/sweep.png');
+    new Products('Taun Taun', '/img/tauntaun.jpg');
+    new Products('Unicorn Meat', '/img/unicorn.jpg');
+    new Products('USB', '/img/usb.gif');
+    new Products('Water Can', '/img/water-can.jpg');
+    new Products('Wine Glass', '/img/wine-glass.jpg');
+
+    localStorage.setItem('allProducts', JSON.stringify(allProcusts));
+  }
+// }
 
 function setupImageContainers(numImages) {
   for (var i = 1; i <= numImages; i++) {
@@ -167,18 +173,14 @@ function showResults() {
     tbody.appendChild(tr);
   }
 
+
+  loadProducts();
+  setupImageContainers(3);
+  setupListener();
+  display3(3);
+
+
   var ctx = document.getElementById('myChart').getContext('2d');
-
-  var labels = [];
-  var data = [];
-  var colors = [];
-
-  for (var y = 0; y < allProducts.length; y++) {
-    labels.push(allProducts[y].name);
-    data.push(allProducts[y].clicked);
-    var randomColorCode = '#' + Math.floor(Math.random() * 16777215).toString(16);
-    colors.push(randomColorCode);
-  }
 
   new Chart(ctx, {
     type: 'bar',
@@ -204,7 +206,39 @@ function showResults() {
 
 }
 
-loadProducts();
-setupImageContainers(3);
-setupListener();
-display3(3);
+function readData() {
+  var displayed = JSON.parse(localStorage.getItem('displayed'));
+  var clicked = JSON.parse(localStorage.getItem('clicked'));
+
+  for (var i = 0; i < allProducts.length; i++) {
+    allProducts[i].displayed = displayed[i];
+    allProducts[i].clicked = clicked[i];
+  }
+}
+
+function saveData() {
+  var displayed = [];
+  var clicked = [];
+  for (var i = 0; i < allProducts.length; i++) {
+    displayed.push(allProducts[i].displayed);
+    clicked.push(allProducts[i].clicked);
+  }
+
+  localStorage.setItem('displayed', JSON.stringify(displayed));
+  localStorage.setItem('clicked', JSON.stringify(clicked));
+
+}
+
+readData();
+saveData();
+
+var labels = [];
+var data = [];
+var colors = [];
+
+for (var y = 0; y < allProducts.length; y++) {
+  labels.push(allProducts[y].name);
+  data.push(allProducts[y].clicked);
+  var randomColorCode = '#' + Math.floor(Math.random() * 16777215).toString(16);
+  colors.push(randomColorCode);
+}
