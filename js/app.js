@@ -27,33 +27,44 @@ Products.prototype.updateClicked = function() {
   this.clicked++;
 };
 
-function loadProducts() {
-  // var allProcusts = JSON.parse(localStorage.getItem('allProducts'));
-  // if (!allProducts) {
-    new Products('Luggage', '/img/bag.jpg');
-    new Products('Banana Cutter', '/img/banana.jpg');
-    new Products('Toilet Paper Holder Stand', '/img/bathroom.jpg');
-    new Products('Rain Boots', '/img/boots.jpg');
-    new Products('Breakfast Machine', '/img/breakfast.jpg');
-    new Products('Meatball Bubblegum', '/img/bubblegum.jpg');
-    new Products('Chair', '/img/chair.jpg');
-    new Products('Cthulhu', '/img/cthulhu.jpg');
-    new Products('Dog-Duck', '/img/dog-duck.jpg');
-    new Products('Dragon Meat', '/img/dragon.jpg');
-    new Products('Utensil Pen', '/img/pen.jpg');
-    new Products('Pet Sweep', '/img/pet-sweep.jpg');
-    new Products('Pizza Scissors', '/img/scissors.jpg');
-    new Products('Shark Sleeping Bag', '/img/shark.jpg');
-    new Products('Baby Sweep', '/img/sweep.png');
-    new Products('Taun Taun', '/img/tauntaun.jpg');
-    new Products('Unicorn Meat', '/img/unicorn.jpg');
-    new Products('USB', '/img/usb.gif');
-    new Products('Water Can', '/img/water-can.jpg');
-    new Products('Wine Glass', '/img/wine-glass.jpg');
-
-    localStorage.setItem('allProducts', JSON.stringify(allProcusts));
+function readData() {
+  var products = JSON.parse(localStorage.getItem('allProducts'));
+  if (!products) {
+    loadProducts();
   }
-// }
+  else {
+    allProducts = products;
+  }
+}
+
+function saveData() {
+  localStorage.setItem('allProducts', JSON.stringify(allProducts));
+}
+
+function loadProducts() {
+  new Products('Luggage', '/img/bag.jpg');
+  new Products('Banana Cutter', '/img/banana.jpg');
+  new Products('Toilet Paper Holder Stand', '/img/bathroom.jpg');
+  new Products('Rain Boots', '/img/boots.jpg');
+  new Products('Breakfast Machine', '/img/breakfast.jpg');
+  new Products('Meatball Bubblegum', '/img/bubblegum.jpg');
+  new Products('Chair', '/img/chair.jpg');
+  new Products('Cthulhu', '/img/cthulhu.jpg');
+  new Products('Dog-Duck', '/img/dog-duck.jpg');
+  new Products('Dragon Meat', '/img/dragon.jpg');
+  new Products('Utensil Pen', '/img/pen.jpg');
+  new Products('Pet Sweep', '/img/pet-sweep.jpg');
+  new Products('Pizza Scissors', '/img/scissors.jpg');
+  new Products('Shark Sleeping Bag', '/img/shark.jpg');
+  new Products('Baby Sweep', '/img/sweep.png');
+  new Products('Taun Taun', '/img/tauntaun.jpg');
+  new Products('Unicorn Meat', '/img/unicorn.jpg');
+  new Products('USB', '/img/usb.gif');
+  new Products('Water Can', '/img/water-can.jpg');
+  new Products('Wine Glass', '/img/wine-glass.jpg');
+}
+
+
 
 function setupImageContainers(numImages) {
   for (var i = 1; i <= numImages; i++) {
@@ -75,7 +86,6 @@ function setupImageContainers(numImages) {
       figure3.appendChild(img);
       figure3.appendChild(caption);
     }
-
   }
 }
 
@@ -95,7 +105,7 @@ function clickHandler(e) {
   var imageName = e.target.alt;
   for (var i = 0; i < allProducts.length; i++) {
     if (allProducts[i].name === imageName) {
-      allProducts[i].updateClicked();
+      allProducts[i].clicked++;
       selected++;
       console.log(selected);
     }
@@ -120,10 +130,13 @@ function display3(threeNums) {
   }
 
   previousSet = thisSet;
+
+  //Put this here because everytime you click, display3 function is run and this will be checked everytime you click.
+
   if (selected === maxSelected) {
     removeListener();
-    //Put this here because everytime you click, display3 function is run and this will be checked everytime you click.
     showResults();
+    saveData();
   }
 }
 
@@ -134,7 +147,7 @@ function uniqueImage() {
     var n = Math.floor(Math.random() * allProducts.length);
     if (!thisSet[n] && !previousSet[n]) {
       found = allProducts[n];
-      allProducts[n].updateDisplayed();
+      allProducts[n].displayed++;
       thisSet[n] = true;
     }
   }
@@ -173,14 +186,22 @@ function showResults() {
     tbody.appendChild(tr);
   }
 
-
-  loadProducts();
-  setupImageContainers(3);
-  setupListener();
-  display3(3);
+  var dataInString = JSON.stringify(allProducts);
+  localStorage.setItem('allProducts', dataInString);
 
 
   var ctx = document.getElementById('myChart').getContext('2d');
+
+  var labels = [];
+  var data = [];
+  var colors = [];
+
+  for (var y = 0; y < allProducts.length; y++) {
+    labels.push(allProducts[y].name);
+    data.push(allProducts[y].clicked);
+    var randomColorCode = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    colors.push(randomColorCode);
+  }
 
   new Chart(ctx, {
     type: 'bar',
@@ -203,42 +224,12 @@ function showResults() {
       }
     }
   });
-
-}
-
-function readData() {
-  var displayed = JSON.parse(localStorage.getItem('displayed'));
-  var clicked = JSON.parse(localStorage.getItem('clicked'));
-
-  for (var i = 0; i < allProducts.length; i++) {
-    allProducts[i].displayed = displayed[i];
-    allProducts[i].clicked = clicked[i];
-  }
-}
-
-function saveData() {
-  var displayed = [];
-  var clicked = [];
-  for (var i = 0; i < allProducts.length; i++) {
-    displayed.push(allProducts[i].displayed);
-    clicked.push(allProducts[i].clicked);
-  }
-
-  localStorage.setItem('displayed', JSON.stringify(displayed));
-  localStorage.setItem('clicked', JSON.stringify(clicked));
-
 }
 
 readData();
-saveData();
 
-var labels = [];
-var data = [];
-var colors = [];
+setupImageContainers(3);
+setupListener();
+display3(3);
 
-for (var y = 0; y < allProducts.length; y++) {
-  labels.push(allProducts[y].name);
-  data.push(allProducts[y].clicked);
-  var randomColorCode = '#' + Math.floor(Math.random() * 16777215).toString(16);
-  colors.push(randomColorCode);
-}
+
