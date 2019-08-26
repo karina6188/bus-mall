@@ -7,80 +7,97 @@ body {
 }
 
 h1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  margin-top: 0;
-  padding: 30px 40px;
   background-color: rgb(143, 0, 0);
   color: white;
-  font-size: 2em;
+  display: inline-block;
   font-family: 'Abril Fatface', cursive;
+  font-size: 2em;
+  left: 0;
+  top: 0;
+  margin-top: 0;
+  padding: 30px 40px;
+  position: absolute;
+  width: 100%;
+}
+
+nav {
+  margin-left: 20px;
+}
+
+nav > ul > li {
+  background-color: rgb(17, 17, 17);
+  border: 1.5px solid rgb(17, 17, 17);
+  border-radius: 2px;
+  color: white;
+  display: inline-block;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2em;
+  margin: 100px 0px 20px 20px;
+  padding: 10px;
+}
+
+nav > ul > li:hover {
+  background-color: rgb(143, 0, 0);
+  color: white;
+  cursor: pointer;
+  transition: 250ms all;
 }
 
 h2 {
-  position: absolute;
-  top: 95px;
-  left: 0;
-  width: 100%;
-  margin-top: 0;
-  padding: 30px 40px;
   color: black;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.3em;
-  text-indent: 30px;
   font-weight: bold;
-  font-family: 'Nunito', sans-serif;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
   left: 0;
+  top: 160px;
+  padding: 30px 40px;
+  position: absolute;
+  text-indent: 30px;
   width: 100%;
-  padding: 15px 40px;
-  background-color: rgb(20, 20, 20);
-  color: white;
-  font-size: 1em;
-  font-family: 'Nunito', sans-serif;
 }
 
 figure {
+  border: 3px solid rgb(143, 0, 0);
   display: inline-block;
-  margin: 170px 0px 40px 40px;
+  margin: 90px 0px 40px 40px;
   padding: 10px;
-  border: 2px solid rgb(143, 0, 0);
+}
+
+figure:hover {
+  border: 3px solid rgb(241, 200, 62);
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 img {
   display: inline-block;
-  width: 240px;
   height: 200px;
   max-height: 220px;
-
+  width: 240px;
 }
+
 figcaption {
   background-color: #ccc;
+  display: block;
   font-family: 'Nunito', sans-serif;
   font-weight: bold;
-  text-align: center;
   padding: 10px 10px;
-  display: block;
-  width: 220px;
   position: relative;
+  text-align: center;
+  width: 220px;
 }
 
 table {
-  margin: 0px 0px 90px 40px;
   background-color: rgb(247, 247, 247);
+  margin: 0px 0px 90px 40px;
 }
 
 td, th {
   border: 1px solid rgb(143, 0, 0);
+  column-width: 120px;
   font-family: 'Nunito', sans-serif;
   padding: 2px 5px;
   text-align: left;
-  column-width: 120px;
 }
 
 th {
@@ -90,4 +107,28 @@ th {
 tr:hover {
   background-color: rgb(168, 107, 107);
   color: white;
+}
+
+footer {
+  background-color: rgb(20, 20, 20);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1em;
+  bottom: 0;
+  left: 0;
+  min-width: 800px;
+  padding: 20px 40px;
+  position: fixed;
+  width: 100%;
+}
+
+footer > section > ul > li {
+  display: inline-block;
+  padding-right: 40px;
+}
+
+footer > section > ul > li:hover {
+  color: rgb(173, 0, 0);
+  cursor: pointer;
+  transition: 350ms all;
 }
