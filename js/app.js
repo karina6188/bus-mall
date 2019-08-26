@@ -110,6 +110,7 @@ function clickHandler(e) {
       console.log(selected);
     }
   }
+  saveData();
   display3(3);
 }
 
@@ -136,7 +137,6 @@ function display3(threeNums) {
   if (selected === maxSelected) {
     removeListener();
     showResults();
-    saveData();
   }
 }
 
@@ -185,9 +185,6 @@ function showResults() {
 
     tbody.appendChild(tr);
   }
-
-  var dataInString = JSON.stringify(allProducts);
-  localStorage.setItem('allProducts', dataInString);
 
 
   var ctx = document.getElementById('myChart').getContext('2d');
