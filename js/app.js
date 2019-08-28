@@ -10,6 +10,7 @@ var allProducts = [];
 var selected = 0;
 console.log(allProducts);
 
+
 function Products(name, src) {
   this.name = name;
   this.src = src;
@@ -25,6 +26,20 @@ Products.prototype.updateDisplayed = function() {
 Products.prototype.updateClicked = function() {
   this.clicked++;
 };
+
+function readData() {
+  var products = JSON.parse(localStorage.getItem('allProducts'));
+  if (!products) {
+    loadProducts();
+  }
+  else {
+    allProducts = products;
+  }
+}
+
+function saveData() {
+  localStorage.setItem('allProducts', JSON.stringify(allProducts));
+}
 
 function loadProducts() {
   new Products('Luggage', '/img/bag.jpg');
@@ -49,6 +64,8 @@ function loadProducts() {
   new Products('Wine Glass', '/img/wine-glass.jpg');
 }
 
+
+
 function setupImageContainers(numImages) {
   for (var i = 1; i <= numImages; i++) {
     var img = document.createElement('img');
@@ -69,7 +86,6 @@ function setupImageContainers(numImages) {
       figure3.appendChild(img);
       figure3.appendChild(caption);
     }
-
   }
 }
 
@@ -89,11 +105,12 @@ function clickHandler(e) {
   var imageName = e.target.alt;
   for (var i = 0; i < allProducts.length; i++) {
     if (allProducts[i].name === imageName) {
-      allProducts[i].updateClicked();
+      allProducts[i].clicked++;
       selected++;
       console.log(selected);
     }
   }
+  saveData();
   display3(3);
 }
 
@@ -114,9 +131,11 @@ function display3(threeNums) {
   }
 
   previousSet = thisSet;
+
+  //Put this here because everytime you click, display3 function is run and this will be checked everytime you click.
+
   if (selected === maxSelected) {
     removeListener();
-    //Put this here because everytime you click, display3 function is run and this will be checked everytime you click.
     showResults();
   }
 }
@@ -128,7 +147,7 @@ function uniqueImage() {
     var n = Math.floor(Math.random() * allProducts.length);
     if (!thisSet[n] && !previousSet[n]) {
       found = allProducts[n];
-      allProducts[n].updateDisplayed();
+      allProducts[n].displayed++;
       thisSet[n] = true;
     }
   }
@@ -167,6 +186,7 @@ function showResults() {
     tbody.appendChild(tr);
   }
 
+
   var ctx = document.getElementById('myChart').getContext('2d');
 
   var labels = [];
@@ -201,10 +221,12 @@ function showResults() {
       }
     }
   });
-
 }
 
-loadProducts();
+readData();
+
 setupImageContainers(3);
 setupListener();
 display3(3);
+
+
