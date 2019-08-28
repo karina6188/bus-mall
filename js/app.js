@@ -139,7 +139,7 @@ function uniqueImage() {
 function showResults() {
   var thead = document.getElementById('thead');
   var trh = document.createElement('tr');
-  
+
   var tableHead = ['Product Name', 'Images Displayed', 'Images Selected'];
   for (var x = 0; x < tableHead.length; x++) {
     var th = document.createElement('th');
@@ -166,10 +166,45 @@ function showResults() {
 
     tbody.appendChild(tr);
   }
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+
+  var labels = [];
+  var data = [];
+  var colors = [];
+
+  for (var y = 0; y < allProducts.length; y++) {
+    labels.push(allProducts[y].name);
+    data.push(allProducts[y].clicked);
+    var randomColorCode = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    colors.push(randomColorCode);
+  }
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Product Votes',
+        data: data,
+        backgroundColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
 }
 
 loadProducts();
 setupImageContainers(3);
 setupListener();
 display3(3);
-
